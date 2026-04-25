@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  homarr:
+    image: ghcr.io/ajnart/homarr:latest
+    container_name: homarr
+    restart: always
+    environment:
+      - TZ=America/Merida
+    volumes:
+      - ./config:/app/data/configs
+      - ./icons:/app/public/icons
+      - ./data:/data
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homarr.rule=Host(`home.pinomagana.local`)"
+      - "traefik.http.services.homarr.loadbalancer.server.port=7575"
+
+networks:
+  web:
+    external: true
