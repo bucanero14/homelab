@@ -9,6 +9,7 @@ services:
       - "7575:7575"
     environment:
       - TZ=America/Merida
+      - HOSTNAME=0.0.0.0
     volumes:
       - ./config:/app/data/configs
       - ./icons:/app/public/icons
