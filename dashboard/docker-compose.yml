@@ -2,16 +2,15 @@ version: "3.8"
 
 services:
   homarr:
-    image: ghcr.io/ajnart/homarr:latest
+    image: ghcr.io/homarr-labs/homarr:latest
     container_name: homarr
     restart: always
     environment:
       - TZ=America/Merida
-      - HOSTNAME=0.0.0.0
+      - SECRET_ENCRYPTION_KEY=89fc741b78570babe3b60c9ae5b59f948011a7e1a7d6a633ea581c1269e82935
     volumes:
-      - ./config:/app/data/configs
-      - ./icons:/app/public/icons
-      - ./data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./homarr/appdata:/appdata
     networks:
       - web
     labels:
