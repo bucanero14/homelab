@@ -5,6 +5,8 @@ services:
     image: ghcr.io/ajnart/homarr:latest
     container_name: homarr
     restart: always
+    ports:
+      - "7575:7575"
     environment:
       - TZ=America/Merida
     volumes:
