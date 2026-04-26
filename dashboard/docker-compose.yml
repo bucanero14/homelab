@@ -17,6 +17,7 @@ services:
       - web
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=web"
       - "traefik.http.routers.homarr.rule=Host(`home.pinomagana.local`)"
       - "traefik.http.services.homarr.loadbalancer.server.port=7575"
 
