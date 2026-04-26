@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Merida
+
+    volumes:
+      # Config
+      - ./config:/config
+
+      # Cache (opcional pero recomendado)
+      - ./cache:/cache
+
+      # 👉 Media (tu estructura real)
+      - /mnt/storage/DATA/Media/Movies:/data/movies
+      - /mnt/storage/DATA/Media/TV Shows:/data/tv
+      - /mnt/storage/DATA/Media/Music:/data/music
+      - /mnt/storage/DATA/Media/Books:/data/books
+
+    networks:
+      - web
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.pinomagana.local`)"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+
+networks:
+  web:
+    external: true
