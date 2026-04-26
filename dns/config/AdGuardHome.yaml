@@ -10,8 +10,8 @@ tls:
   enabled: false
 
 users:
-  - name: admin
-    password: $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgjR6Z9z7u0Yy5o1xX2zFz9X6k8G # admin (bcrypt)
+  - name: raul
+    password: $2y$10$HvvBOaizSk0ywLG8HA6N0.IukGUL2VPhqgl2JPqGqLi7xA3qBxKSO
 
 log:
   level: info
