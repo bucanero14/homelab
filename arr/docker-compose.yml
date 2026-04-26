@@ -140,7 +140,7 @@ services:
       - PGID=1000
       - TZ=America/Merida
     volumes:
-      - ./config/seerr:/config
+      - ./config/seerr:/app/config
     networks:
       - web
     labels:
