@@ -1,0 +1,17 @@
+http:
+  address: 0.0.0.0:80
+
+dns:
+  bind_hosts:
+    - 0.0.0.0
+  port: 53
+
+tls:
+  enabled: false
+
+users:
+  - name: admin
+    password: $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgjR6Z9z7u0Yy5o1xX2zFz9X6k8G # admin (bcrypt)
+
+log:
+  level: info

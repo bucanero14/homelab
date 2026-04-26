@@ -10,8 +10,8 @@ services:
       - "53:53/udp"
       - "8081:80"
     volumes:
-      - adguard_work:/opt/adguardhome/work
-      - adguard_conf:/opt/adguardhome/conf
+      - ./config:/opt/adguardhome/conf
+      - ./work:/opt/adguardhome/work
     networks:
       - web
     labels:
@@ -22,7 +22,3 @@ services:
 networks:
   web:
     external: true
-
-volumes:
-  adguard_work:
-  adguard_conf:
