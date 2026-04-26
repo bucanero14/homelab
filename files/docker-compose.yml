@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  filebrowser:
+    image: gtstef/filebrowser:latest
+    container_name: filebrowser
+    restart: unless-stopped
+    user: "1000:1000"
+    environment:
+      - TZ=America/Merida
+    volumes:
+      # Base de datos y config de FileBrowser
+      - ./config:/config
+
+      # 👉 Tu disco duro montado
+      - /mnt/sda1:/srv
+
+    networks:
+      - web
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.filebrowser.rule=Host(`files.pinomagana.local`)"
+      - "traefik.http.services.filebrowser.loadbalancer.server.port=80"
+
+networks:
+  web:
+    external: true
