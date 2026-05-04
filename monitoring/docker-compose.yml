@@ -9,6 +9,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     # ports:
     #   - "3000:3000"
+    environment:
+      - WUD_REGISTRY_LSCR_URL=https://lscr.io
     networks:
       - web
     labels:
