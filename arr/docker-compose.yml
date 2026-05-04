@@ -24,23 +24,23 @@ services:
       - "traefik.http.routers.qbit.rule=Host(`qbit.pinomagana.local`)"
       - "traefik.http.services.qbit.loadbalancer.server.port=8080"
 
-  nzbget:
-    image: lscr.io/linuxserver/nzbget:latest
-    container_name: nzbget
-    restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Merida
-    volumes:
-      - ./config/nzbget:/config
-      - /mnt/storage/DATA/Downloads:/downloads
-    networks:
-      - web
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nzbget.rule=Host(`nzb.pinomagana.local`)"
-      - "traefik.http.services.nzbget.loadbalancer.server.port=6789"
+  # nzbget:
+  #   image: lscr.io/linuxserver/nzbget:latest
+  #   container_name: nzbget
+  #   restart: unless-stopped
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=America/Merida
+  #   volumes:
+  #     - ./config/nzbget:/config
+  #     - /mnt/storage/DATA/Downloads:/downloads
+  #   networks:
+  #     - web
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.nzbget.rule=Host(`nzb.pinomagana.local`)"
+  #     - "traefik.http.services.nzbget.loadbalancer.server.port=6789"
 
   # ======================
   # ARR APPS
