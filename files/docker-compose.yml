@@ -28,7 +28,7 @@ services:
       - traefik.http.routers.filebrowser.entrypoints=web
 
       # Servicio
-      - traefik.http.services.filebrowser.loadbalancer.server.port=8080
+      - traefik.http.services.filebrowser.loadbalancer.server.port=80
 
 networks:
   web:
