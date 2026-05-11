@@ -21,15 +21,9 @@ services:
       - traefik.http.routers.webtop.rule=Host(`webtop.pinomagana.local`)
       - traefik.http.routers.webtop.entrypoints=web
 
-      # Service -> puerto HTTPS interno
+      # HTTPS backend
       - traefik.http.services.webtop.loadbalancer.server.port=3001
-
-      # 👇 backend usa HTTPS
       - traefik.http.services.webtop.loadbalancer.server.scheme=https
-
-      # 👇 ignora self-signed cert del contenedor
-      - traefik.http.serverstransports.webtoptransport.insecureskipverify=true
-      - traefik.http.services.webtop.loadbalancer.serverstransport=webtoptransport
     shm_size: "3gb"
     restart: unless-stopped
 
