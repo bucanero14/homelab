@@ -6,23 +6,29 @@ services:
     container_name: filebrowser
     restart: unless-stopped
     user: "1000:1000"
+
     environment:
       - TZ=America/Merida
-    volumes:
-      # Base de datos y config de FileBrowser
-      - ./config:/config
 
-      # 👉 Tu disco duro montado
+    volumes:
+      - ./config:/config
       - /mnt/storage:/srv
 
     networks:
       - web
 
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=web"
-      - "traefik.http.routers.filebrowser.rule=Host(`files.pinomagana.local`)"
-      - "traefik.http.services.filebrowser.loadbalancer.server.port=80"
+      - traefik.enable=true
+
+      # Red de Traefik
+      - traefik.docker.network=web
+
+      # Router
+      - traefik.http.routers.filebrowser.rule=Host(`files.pinomagana.local`)
+      - traefik.http.routers.filebrowser.entrypoints=web
+
+      # Servicio
+      - traefik.http.services.filebrowser.loadbalancer.server.port=8080
 
 networks:
   web:
