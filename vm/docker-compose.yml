@@ -1,6 +1,6 @@
 services:
   webtop:
-    image: ghcr.io/linuxserver/webtop:latest
+    image: ghcr.io/linuxserver/webtop:ubuntu-mate
     container_name: webtop
     environment:
       - PUID=1000
@@ -14,10 +14,22 @@ services:
     networks:
       - web
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=web"
-      - "traefik.http.routers.filebrowser.rule=Host(`webtop.pinomagana.local`)"
-      - "traefik.http.services.filebrowser.loadbalancer.server.port=3000"
+      - traefik.enable=true
+      - traefik.docker.network=web
+
+      # Router
+      - traefik.http.routers.webtop.rule=Host(`webtop.pinomagana.local`)
+      - traefik.http.routers.webtop.entrypoints=web
+
+      # Service -> puerto HTTPS interno
+      - traefik.http.services.webtop.loadbalancer.server.port=3001
+
+      # 👇 backend usa HTTPS
+      - traefik.http.services.webtop.loadbalancer.server.scheme=https
+
+      # 👇 ignora self-signed cert del contenedor
+      - traefik.http.serverstransports.webtoptransport.insecureskipverify=true
+      - traefik.http.services.webtop.loadbalancer.serverstransport=webtoptransport
     shm_size: "3gb"
     restart: unless-stopped
 
