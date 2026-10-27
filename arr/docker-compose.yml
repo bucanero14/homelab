@@ -16,7 +16,7 @@ services:
       - WEBUI_PORT=8080
     volumes:
       - ./config/qbittorrent:/config
-      - /mnt/storage/DATA/Downloads:/downloads
+      - /mnt/storage/DATA/Downloads:/downloads:rw
     networks:
       - web
     labels:
@@ -56,8 +56,8 @@ services:
       - TZ=America/Merida
     volumes:
       - ./config/sonarr:/config
-      - /mnt/storage/DATA/Downloads:/downloads
-      - /mnt/storage/DATA/Media/TV Shows:/tv
+      - /mnt/storage/DATA/Downloads:/downloads:rw
+      - /mnt/storage/DATA/Media/TV Shows:/tv:rw
     networks:
       - web
     labels:
@@ -75,8 +75,8 @@ services:
       - TZ=America/Merida
     volumes:
       - ./config/radarr:/config
-      - /mnt/storage/DATA/Downloads:/downloads
-      - /mnt/storage/DATA/Media/Movies:/movies
+      - /mnt/storage/DATA/Downloads:/downloads:rw
+      - /mnt/storage/DATA/Media/Movies:/movies:rw
     networks:
       - web
     labels:
@@ -123,7 +123,7 @@ services:
       - TZ=America/Merida
     volumes:
       - ./config/bazarr:/config
-      - /mnt/storage/DATA/Media:/media
+      - /mnt/storage/DATA/Media:/media:rw
     networks:
       - web
     labels:
