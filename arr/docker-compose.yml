@@ -141,6 +141,8 @@ services:
       - TZ=America/Merida
     volumes:
       - ./config/seerr:/app/config
+    ports:
+      - "5055:5055"
     networks:
       - web
     labels:
