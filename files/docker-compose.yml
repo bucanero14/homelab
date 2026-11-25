@@ -1,4 +1,3 @@
-version: "3.8"
 
 services:
   filebrowser:
@@ -11,7 +10,7 @@ services:
       - TZ=America/Merida
 
     volumes:
-      - ./config:/config
+      - ./data:/home/filebrowser/data
       - /mnt/storage:/srv
 
     networks:
@@ -19,15 +18,9 @@ services:
 
     labels:
       - traefik.enable=true
-
-      # Red de Traefik
       - traefik.docker.network=web
-
-      # Router
       - traefik.http.routers.filebrowser.rule=Host(`files.pinomagana.local`)
       - traefik.http.routers.filebrowser.entrypoints=web
-
-      # Servicio
       - traefik.http.services.filebrowser.loadbalancer.server.port=80
 
 networks:
