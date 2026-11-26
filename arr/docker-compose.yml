@@ -143,6 +143,8 @@ services:
       - ASPNETCORE_URLS=http://+:9876
       - TZ=America/Merida
       - DB_CONNECTION=sqlite
+      - SQLITE_DB_PATH=/app/config/local.db
+      - DB_HANGFIRE_SQLITE_PATH=/app/config/Hangfire.db
       - 'SERVICE_TYPE=["gemini","google"]'
       - GEMINI_MODEL=gemini-3.5-flash-lite
       - USE_BATCH_TRANSLATION=true
