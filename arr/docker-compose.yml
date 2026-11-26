@@ -131,6 +131,34 @@ services:
       - "traefik.http.routers.bazarr.rule=Host(`bazarr.pinomagana.local`)"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
 
+  # Automatic subtitle translation for newly added media only.
+  # API keys and automation settings are configured in Lingarr's web UI and
+  # stored in ./config/lingarr (not tracked in git).
+  lingarr:
+    image: ghcr.io/lingarr-translate/lingarr:latest
+    container_name: lingarr
+    restart: unless-stopped
+    user: "1000:1000"
+    environment:
+      - ASPNETCORE_URLS=http://+:9876
+      - TZ=America/Merida
+      - DB_CONNECTION=sqlite
+      - 'SERVICE_TYPE=["gemini","google"]'
+      - GEMINI_MODEL=gemini-3.5-flash-lite
+      - USE_BATCH_TRANSLATION=true
+      - 'SOURCE_LANGUAGES=[{"name":"English","code":"en"},{"name":"Japanese","code":"ja"},{"name":"Chinese (Simplified)","code":"zh-CN"},{"name":"Chinese (Traditional)","code":"zh-TW"},{"name":"French","code":"fr"},{"name":"German","code":"de"},{"name":"Italian","code":"it"},{"name":"Portuguese","code":"pt"}]'
+      - 'TARGET_LANGUAGES=[{"name":"Spanish (Latin America)","code":"es-mx"},{"name":"Spanish","code":"es"}]'
+    volumes:
+      - ./config/lingarr:/app/config:rw
+      - /mnt/storage/DATA/Media/Movies:/movies:rw
+      - /mnt/storage/DATA/Media/TV Shows:/tv:rw
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lingarr.rule=Host(`lingarr.pinomagana.local`)"
+      - "traefik.http.services.lingarr.loadbalancer.server.port=9876"
+
   seerr:
     image: ghcr.io/seerr-team/seerr:latest
     container_name: seerr
