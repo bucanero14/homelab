@@ -167,11 +167,16 @@ services:
       - SQLITE_DB_PATH=/app/config/local.db
       - DB_HANGFIRE_SQLITE_PATH=/app/config/Hangfire.db
       - 'SERVICE_TYPE=["localai","gemini","google"]'
+      # Ollama OpenAI-compatible chat endpoint. The chat request template is
+      # configured in Lingarr's UI and is not overwritten on restart.
       - LOCAL_AI_ENDPOINT=http://ollama:11434/v1/chat/completions
-      - LOCAL_AI_MODEL=aya-expanse:8b
+      - LOCAL_AI_MODEL=qwen2.5:7b-instruct
       - LOCAL_AI_STRUCTURED_OUTPUT=false
       - GEMINI_MODEL=gemini-3.5-flash-lite
-      - USE_BATCH_TRANSLATION=true
+      # Single-line mode: an 8B model cannot reliably return one JSON object per
+      # cue, so batching is disabled to avoid dropped or merged subtitles.
+      - USE_BATCH_TRANSLATION=false
+      - 'AI_PROMPT=Translate from {sourceLanguage} to {targetLanguage}, preserving tone, meaning and register without censoring. Treat incomplete fragments, ellipses and single words as real content: translate them and never drop, merge or replace them. When given a JSON array, return ONLY a JSON array of objects with the exact English keys position and line, one object per input cue, with every position unchanged and no entries omitted. For a single line, return only the translated text. No markdown fences, no explanations, no translator notes.'
       - 'SOURCE_LANGUAGES=[{"name":"English","code":"en"},{"name":"Japanese","code":"ja"},{"name":"Chinese (Simplified)","code":"zh-CN"},{"name":"Chinese (Traditional)","code":"zh-TW"},{"name":"French","code":"fr"},{"name":"German","code":"de"},{"name":"Italian","code":"it"},{"name":"Portuguese","code":"pt"}]'
       - 'TARGET_LANGUAGES=[{"name":"Spanish (Latin America)","code":"es-mx"},{"name":"Spanish","code":"es"}]'
     volumes:
