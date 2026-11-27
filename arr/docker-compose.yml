@@ -131,6 +131,27 @@ services:
       - "traefik.http.routers.bazarr.rule=Host(`bazarr.pinomagana.local`)"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
 
+  # Local subtitle translation model for Lingarr.
+  # No published port or Traefik labels: Lingarr reaches it over the `web` network.
+  # Requires NVIDIA Container Toolkit on the host.
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    environment:
+      - OLLAMA_CONTEXT_LENGTH=4096
+    volumes:
+      - ./config/ollama:/root/.ollama
+    networks:
+      - web
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
   # Automatic subtitle translation for newly added media only.
   # API keys and automation settings are configured in Lingarr's web UI and
   # stored in ./config/lingarr (not tracked in git).
@@ -145,7 +166,10 @@ services:
       - DB_CONNECTION=sqlite
       - SQLITE_DB_PATH=/app/config/local.db
       - DB_HANGFIRE_SQLITE_PATH=/app/config/Hangfire.db
-      - 'SERVICE_TYPE=["gemini","google"]'
+      - 'SERVICE_TYPE=["localai","gemini","google"]'
+      - LOCAL_AI_ENDPOINT=http://ollama:11434/v1/chat/completions
+      - LOCAL_AI_MODEL=aya-expanse:8b
+      - LOCAL_AI_STRUCTURED_OUTPUT=false
       - GEMINI_MODEL=gemini-3.5-flash-lite
       - USE_BATCH_TRANSLATION=true
       - 'SOURCE_LANGUAGES=[{"name":"English","code":"en"},{"name":"Japanese","code":"ja"},{"name":"Chinese (Simplified)","code":"zh-CN"},{"name":"Chinese (Traditional)","code":"zh-TW"},{"name":"French","code":"fr"},{"name":"German","code":"de"},{"name":"Italian","code":"it"},{"name":"Portuguese","code":"pt"}]'
